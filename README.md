@@ -3,7 +3,7 @@
 **Course**: CMOS Mixed Signal VLSI Design (Sub Code: ECM 4444)  
 **Program**: Electronics and Computer Engineering (Sem 7)  
 **Institution**: School of Electrical Engineering, Manipal Institute of Technology Bengaluru  
-**Author**: Adithyan B (adithyxn05@gmail.com)  
+**Author**: Jyothika Subramanyam (jyothika.subramanyam@learner.manipal.edu)  
 **PDK / Process**: Cadence GPDK 180nm CMOS ($V_{DD} = 1.8\text{ V}$)  
 **Toolsuite**: Cadence Design Suite (Spectre 21.1 / Virtuoso IC618)
 
