@@ -59,7 +59,14 @@ In this paper, a 6-bit differential current-steering DAC is designed and verifie
 \section{Circuit Architecture \& Operating Principles}
 
 \subsection{Differential Current-Steering Topology}
-The overall block diagram of the 6-bit converter is depicted in Fig.~\ref{fig:block_diagram}. The DAC core consists of an array of six binary-weighted current source cells ($I_0$ to $I_5$), a centralized low-noise bias generator, complementary switch drivers, and a pair of matched resistive loads ($R_{LP} = R_{LN} = R_L = 200\,\Omega$) connected to the positive supply rail ($V_{DD} = 1.8\,\text{V}$).
+The overall block diagram and Cadence Virtuoso top-level schematic of the 6-bit converter are depicted in Fig.~\ref{fig:block_diagram} and Fig.~\ref{fig:top_schematic}, respectively. The DAC core consists of an array of six binary-weighted current source cells ($I_0$ to $I_5$), a centralized low-noise bias generator, complementary switch drivers, and a pair of matched resistive loads ($R_{LP} = R_{LN} = R_L = 200\,\Omega$) connected to the positive supply rail ($V_{DD} = 1.8\,\text{V}$).
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.98\columnwidth]{../figures/virtuoso_dac_top_tight.png}
+\caption{Cadence Virtuoso top-level schematic of the 6-bit differential current-steering DAC in GPDK 180\,nm CMOS showing binary branches (Bits 0--5), bias rails, and matched $200\,\Omega$ load resistors (0 errors, 0 warnings).}
+\label{fig:top_schematic}
+\end{figure}
 
 For a digital input word represented by the 6-bit vector $D = [D_5, D_4, D_3, D_2, D_1, D_0]$ where $D_i \in \{0, 1\}$, the decimal code is:
 \begin{equation}
@@ -92,8 +99,8 @@ V_{diff}(k) = V_{OUT+}(k) - V_{OUT-}(k) = (63 - 2k) \cdot I_{LSB} R_L.
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=0.88\columnwidth]{../figures/current_cell_schematic.png}
-\caption{Detailed transistor-level schematic of the unit cascode current-steering cell ($I_{LSB} = 25\,\mu\text{A}$) in 180\,nm CMOS.}
+\includegraphics[width=0.96\columnwidth]{../figures/virtuoso_schematic_closeup.png}
+\caption{Cadence Virtuoso schematic capture of the unit cascode current-steering cell ($I_{LSB} = 25\,\mu\text{A}$) in GPDK 180\,nm CMOS, extracted with 0 design-rule errors and 0 open ports.}
 \label{fig:cell_schematic}
 \end{figure}
 
