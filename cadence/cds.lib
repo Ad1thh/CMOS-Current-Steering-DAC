@@ -1,3 +1,7 @@
-SOFTINCLUDE /home/install/IC618/share/cdssetup/cds.lib
+UNDEFINE analogLib
+UNDEFINE basic
+UNDEFINE gpdk180
+DEFINE analogLib /home/install/IC618/tools/dfII/etc/cdslib/artist/analogLib
+DEFINE basic /home/install/IC618/tools/dfII/etc/cdslib/basic
 DEFINE gpdk180 /home/install/FOUNDRY/analog/180nm/libs.oa22/gpdk180
 DEFINE dac_6bit_lib /home/student/.gemini/antigravity-cli/scratch/CMOS-Current-Steering-DAC/cadence/dac_6bit_lib
