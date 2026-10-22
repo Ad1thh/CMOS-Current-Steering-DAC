@@ -1,0 +1,36 @@
+# Cadence / EDA simulation outputs
+*.log
+*.logv*
+*.cmd*
+*.key
+*.diag
+*.psf/
+*.raw/
+*.trn
+*.vcd
+*.fc
+*.ic
+spectre.out
+sens.output
+.cadence/
+.simvision/
+.artist_states/
+CDS.log*
+panic.log*
+TWFBinDir/
+xcelium.d/
+fv/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# LaTeX compilation auxiliary files
+*.aux
+*.bbl
+*.blg
+*.out
+*.synctex.gz
+*.toc
+*.fls
+*.fdb_latexmk
