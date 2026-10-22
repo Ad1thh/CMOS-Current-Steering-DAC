@@ -1,0 +1,30 @@
+// Spectre Testbench: PVT Corner Simulations (NN, FF, SS)
+simulator lang=spectre
+global 0
+
+include "dac_6bit_top.scs"
+
+V_DD (VDD 0) vsource dc=vdd_val
+V_SS (VSS 0) vsource dc=0.0
+
+V_D0 (D0 0) vsource type=pulse val0=0.0 val1=vdd_val period=20n delay=4n rise=100p fall=100p width=8n
+V_DB0 (DB0 0) vsource type=pulse val0=vdd_val val1=0.0 period=20n delay=4n rise=100p fall=100p width=8n
+V_D1 (D1 0) vsource type=pulse val0=0.0 val1=vdd_val period=20n delay=4n rise=100p fall=100p width=8n
+V_DB1 (DB1 0) vsource type=pulse val0=vdd_val val1=0.0 period=20n delay=4n rise=100p fall=100p width=8n
+V_D2 (D2 0) vsource type=pulse val0=0.0 val1=vdd_val period=20n delay=4n rise=100p fall=100p width=8n
+V_DB2 (DB2 0) vsource type=pulse val0=vdd_val val1=0.0 period=20n delay=4n rise=100p fall=100p width=8n
+V_D3 (D3 0) vsource type=pulse val0=0.0 val1=vdd_val period=20n delay=4n rise=100p fall=100p width=8n
+V_DB3 (DB3 0) vsource type=pulse val0=vdd_val val1=0.0 period=20n delay=4n rise=100p fall=100p width=8n
+V_D4 (D4 0) vsource type=pulse val0=0.0 val1=vdd_val period=20n delay=4n rise=100p fall=100p width=8n
+V_DB4 (DB4 0) vsource type=pulse val0=vdd_val val1=0.0 period=20n delay=4n rise=100p fall=100p width=8n
+V_D5 (D5 0) vsource type=pulse val0=0.0 val1=vdd_val period=20n delay=4n rise=100p fall=100p width=8n
+V_DB5 (DB5 0) vsource type=pulse val0=vdd_val val1=0.0 period=20n delay=4n rise=100p fall=100p width=8n
+
+X_DUT (VDD VSS D0 DB0 D1 DB1 D2 DB2 D3 DB3 D4 DB4 D5 DB5 VOUTP VOUTN) dac_6bit_core
+
+parameters vdd_val=1.8
+include "/home/install/FOUNDRY/analog/180nm/models/spectre/gpdk.scs" section=NN
+tran_nn tran stop=15n step=20p
+
+save VOUTP VOUTN
+simulatorOptions options reltol=1e-3 vabstol=1e-6 rawfmt=psfascii

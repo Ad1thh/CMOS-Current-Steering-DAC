@@ -1,0 +1,58 @@
+// ==============================================================================
+// Cadence Spectre Top-Level Circuit: 6-bit High-Speed Current-Steering DAC
+// Course: CMOS Mixed Signal VLSI Design (ECM 4444)
+// Process: Cadence GPDK 180nm CMOS
+// ==============================================================================
+
+simulator lang=spectre
+
+// Unit Differential Current Steering Cell
+subckt current_cell_weighted (VOUTP VOUTN D DB VBIAS_CS VBIAS_CAS VSS)
+    // Current source device sized for matching (Pelgrom's Law) and high output impedance
+    M_CS (n_int VBIAS_CS VSS VSS) nmos1 w=4.8u l=1.2u as=2.88p ad=2.88p ps=10.8u pd=10.8u
+    // Cascode shielding device to eliminate drain modulation and INL bow
+    M_CAS (n_tail VBIAS_CAS n_int VSS) nmos1 w=3.0u l=0.5u as=1.8p ad=1.8p ps=7.2u pd=7.2u
+    // Differential switch pair sized for high-speed switching with minimal parasitic C
+    M_SWP (VOUTP D n_tail VSS) nmos1 w=1.5u l=0.18u as=0.9p ad=0.9p ps=4.2u pd=4.2u
+    M_SWN (VOUTN DB n_tail VSS) nmos1 w=1.5u l=0.18u as=0.9p ad=0.9p ps=4.2u pd=4.2u
+ends current_cell_weighted
+
+// Bias Generator: Produces stable VBIAS_CS and VBIAS_CAS voltages
+subckt dac_bias_network (VDD VSS VBIAS_CS VBIAS_CAS)
+    // Reference current source Iref = 25 uA
+    Iref (VDD VBIAS_CS) isource dc=25u
+    // Diode-connected reference transistor for M_CS
+    M_REF_CS (VBIAS_CS VBIAS_CS VSS VSS) nmos1 w=4.8u l=1.2u as=2.88p ad=2.88p ps=10.8u pd=10.8u
+    // Low-pass filter capacitor to eliminate high-frequency bias noise
+    C_FLT (VBIAS_CS VSS) capacitor c=2.0p
+    // Cascode gate bias voltage = 1.05 V (referenced to VSS)
+    V_CAS_SRC (VBIAS_CAS VSS) vsource dc=1.05
+ends dac_bias_network
+
+// Complete 6-bit Differential DAC Core
+subckt dac_6bit_core (VDD VSS D0 DB0 D1 DB1 D2 DB2 D3 DB3 D4 DB4 D5 DB5 VOUTP VOUTN)
+    // Internal Bias Network
+    X_BIAS (VDD VSS vbias_cs vbias_cas) dac_bias_network
+    
+    // 6 Binary Weighted Current Branches
+    // Bit 0: LSB (Weight = 1, I = 25 uA)
+    X_BIT0 (VOUTP VOUTN D0 DB0 vbias_cs vbias_cas VSS) current_cell_weighted m=1
+    // Bit 1: (Weight = 2, I = 50 uA)
+    X_BIT1 (VOUTP VOUTN D1 DB1 vbias_cs vbias_cas VSS) current_cell_weighted m=2
+    // Bit 2: (Weight = 4, I = 100 uA)
+    X_BIT2 (VOUTP VOUTN D2 DB2 vbias_cs vbias_cas VSS) current_cell_weighted m=4
+    // Bit 3: (Weight = 8, I = 200 uA)
+    X_BIT3 (VOUTP VOUTN D3 DB3 vbias_cs vbias_cas VSS) current_cell_weighted m=8
+    // Bit 4: (Weight = 16, I = 400 uA)
+    X_BIT4 (VOUTP VOUTN D4 DB4 vbias_cs vbias_cas VSS) current_cell_weighted m=16
+    // Bit 5: MSB (Weight = 32, I = 800 uA)
+    X_BIT5 (VOUTP VOUTN D5 DB5 vbias_cs vbias_cas VSS) current_cell_weighted m=32
+
+    // Matched Load Resistors RL = 200 Ohm pulling up to VDD
+    R_LP (VDD VOUTP) resistor r=200.0
+    R_LN (VDD VOUTN) resistor r=200.0
+
+    // Load / Interconnect Parasitic Capacitance (CL = 1.0 pF)
+    C_LP (VOUTP VSS) capacitor c=1.0p
+    C_LN (VOUTN VSS) capacitor c=1.0p
+ends dac_6bit_core

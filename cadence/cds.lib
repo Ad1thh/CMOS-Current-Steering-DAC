@@ -1,0 +1,3 @@
+SOFTINCLUDE /home/install/IC618/share/cdssetup/cds.lib
+DEFINE gpdk180 /home/install/FOUNDRY/analog/180nm/libs.oa22/gpdk180
+DEFINE dac_6bit_lib /home/student/.gemini/antigravity-cli/scratch/CMOS-Current-Steering-DAC/cadence/dac_6bit_lib

@@ -1,0 +1,27 @@
+// Spectre Testbench: Full-Scale Transient Step & Settling Time
+simulator lang=spectre
+global 0
+include "/home/install/FOUNDRY/analog/180nm/models/spectre/gpdk.scs" section=NN
+include "dac_6bit_top.scs"
+
+V_DD (VDD 0) vsource dc=1.8
+V_SS (VSS 0) vsource dc=0.0
+
+V_D0 (D0 0) vsource type=pulse val0=0.0 val1=1.8 period=30n delay=5n rise=100p fall=100p width=10n
+V_DB0 (DB0 0) vsource type=pulse val0=1.8 val1=0.0 period=30n delay=5n rise=100p fall=100p width=10n
+V_D1 (D1 0) vsource type=pulse val0=0.0 val1=1.8 period=30n delay=5n rise=100p fall=100p width=10n
+V_DB1 (DB1 0) vsource type=pulse val0=1.8 val1=0.0 period=30n delay=5n rise=100p fall=100p width=10n
+V_D2 (D2 0) vsource type=pulse val0=0.0 val1=1.8 period=30n delay=5n rise=100p fall=100p width=10n
+V_DB2 (DB2 0) vsource type=pulse val0=1.8 val1=0.0 period=30n delay=5n rise=100p fall=100p width=10n
+V_D3 (D3 0) vsource type=pulse val0=0.0 val1=1.8 period=30n delay=5n rise=100p fall=100p width=10n
+V_DB3 (DB3 0) vsource type=pulse val0=1.8 val1=0.0 period=30n delay=5n rise=100p fall=100p width=10n
+V_D4 (D4 0) vsource type=pulse val0=0.0 val1=1.8 period=30n delay=5n rise=100p fall=100p width=10n
+V_DB4 (DB4 0) vsource type=pulse val0=1.8 val1=0.0 period=30n delay=5n rise=100p fall=100p width=10n
+V_D5 (D5 0) vsource type=pulse val0=0.0 val1=1.8 period=30n delay=5n rise=100p fall=100p width=10n
+V_DB5 (DB5 0) vsource type=pulse val0=1.8 val1=0.0 period=30n delay=5n rise=100p fall=100p width=10n
+
+X_DUT (VDD VSS D0 DB0 D1 DB1 D2 DB2 D3 DB3 D4 DB4 D5 DB5 VOUTP VOUTN) dac_6bit_core
+
+tran tran stop=25n step=10p errpreset=conservative
+save VOUTP VOUTN D0 D5
+simulatorOptions options reltol=1e-4 vabstol=1e-6 iabstol=1e-12 rawfmt=psfascii
